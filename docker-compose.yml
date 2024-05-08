@@ -1,0 +1,8 @@
+services:
+  testing:
+    image: runner:compose
+    environment:
+      - CIRCLECI_RUNNER_NAME=testing
+    env_file:
+      - path: "./runner-token.env"
+        required: true
