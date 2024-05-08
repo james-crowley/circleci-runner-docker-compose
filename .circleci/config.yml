@@ -7,6 +7,14 @@ jobs:
   runner-test:
     machine: true
     resource_class: crowley/testing-123
-    parallelism: 10
+    parallelism: 43
     steps:
-      - run: echo "Hi I'm on Runners!"
+      - run:
+          name: Starting Random Wait
+          command: echo "Starting Random Wait......."
+      - run:
+          name: Starting Random Wait
+          command: sleep $((RANDOM % 120))
+      - run:
+          name: "Runner Time :)"
+          command: echo "I am on a runner!!!!!"
