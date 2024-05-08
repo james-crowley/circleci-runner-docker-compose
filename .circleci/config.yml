@@ -7,5 +7,6 @@ jobs:
   runner-test:
     machine: true
     resource_class: crowley/testing-123
+    parallelism: 10
     steps:
       - run: echo "Hi I'm on Runners!"
