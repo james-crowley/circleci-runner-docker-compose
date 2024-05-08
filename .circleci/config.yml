@@ -7,7 +7,7 @@ jobs:
   runner-test:
     machine: true
     resource_class: crowley/testing-123
-    parallelism: 43
+    parallelism: 35
     steps:
       - run:
           name: Starting Random Wait
