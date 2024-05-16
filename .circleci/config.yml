@@ -1,13 +1,27 @@
 version: 2.1
-workflows:
-  testing:
-    jobs:
-      - runner-test
+
+executors:
+  base:
+    machine: true
+    resource_class: crowley/base-docker
+  
+  convenience:
+    machine: true
+    resource_class: crowley/convenience-docker
+  
+  machine:
+    machine: true
+    resource_class: crowley/machine-docker
+
 jobs:
   runner-test:
-    machine: true
-    resource_class: crowley/testing-123
-    parallelism: 20
+    parameters:
+      runner:
+        type: executor
+      parallelism:
+        type: integer
+    executor: << parameters.runner >>
+    parallelism: << parameters.parallelism >>
     steps:
       - run:
           name: Starting Random Wait
@@ -18,3 +32,19 @@ jobs:
       - run:
           name: "Runner Time :)"
           command: echo "I am on a runner!!!!!"
+
+workflows:
+  testing:
+    jobs:
+      - runner-test:
+          name: "Testing Base Image Runner"
+          runner: base
+          parallelism: 2
+      - runner-test:
+          name: "Testing Convenience Image Runner"
+          runner: convenience
+          parallelism: 10
+      - runner-test:
+          name: "Testing Machine Image Runner"
+          runner: machine
+          parallelism: 1

@@ -1,10 +1,10 @@
-FROM ubuntu:24.04
+# Utilize CircleCI's Convenience Images
+FROM cimg/python:3.12.3
 
+# Switch to root for installing needed packages
 USER root
 
 # Install CircleCI Registry and circleci-runner package
-# Curl is needed for pulling the script while ca-certificates allow curl to pull using HTTPS
-# Could also install gnupg debian-archive-keyring apt-transport-https but those are handled by install script
 RUN apt-get update \
     && apt-get install --no-install-recommends -y curl ca-certificates \
     && curl -s https://packagecloud.io/install/repositories/circleci/runner/script.deb.sh?any=true -o /tmp/script.deb.sh \
@@ -13,6 +13,7 @@ RUN apt-get update \
     && apt-get install --no-install-recommends -y circleci-runner \
     && rm -rf /var/lib/apt/lists/*
 
+# Switch circleci user to run the CircleCI Runner
 USER circleci
 
 CMD ["/usr/bin/circleci-runner", "machine", "-c", "/etc/circleci-runner/circleci-runner-config.yaml"]
