@@ -13,6 +13,10 @@ executors:
     machine: true
     resource_class: crowley/machine-docker
 
+  rhel:
+    machine: true
+    resource_class: crowley/rhel-init
+
 jobs:
   runner-test:
     parameters:
@@ -47,4 +51,8 @@ workflows:
       - runner-test:
           name: "Testing Machine Image Runner"
           runner: machine
+          parallelism: 1
+      - runner-test:
+          name: "Testing Machine Image Runner"
+          runner: rhel
           parallelism: 1
